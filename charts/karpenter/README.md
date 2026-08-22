@@ -43,6 +43,7 @@ cosign verify public.ecr.aws/karpenter/karpenter:1.14.1 \
 | additionalAnnotations | object | `{}` | Additional annotations to add into metadata. |
 | additionalClusterRoleRules | list | `[]` | Specifies additional rules for the core ClusterRole. |
 | additionalLabels | object | `{}` | Additional labels to add into metadata. |
+| automountServiceAccountToken | bool | `true` | Auto-mount the ServiceAccount token into the controller pod. Karpenter uses the in-cluster config to reach the Kubernetes API, so it needs this token; note IRSA / EKS Pod Identity does not replace it (that only covers the AWS API). Keep this true unless you project the token yourself via extraVolumes and controller.extraVolumeMounts. Exposed so clusters with policies that forbid auto-mounting (e.g. OPA Gatekeeper) can manage it explicitly. |
 | affinity | object | `{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"karpenter.sh/nodepool","operator":"DoesNotExist"}]}]}},"podAntiAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":[{"topologyKey":"kubernetes.io/hostname"}]}}` | Affinity rules for scheduling the pod. If an explicit label selector is not provided for pod affinity or pod anti-affinity one will be created from the pod selector labels. |
 | controller.containerName | string | `"controller"` | Distinguishing container name (containerName: karpenter-controller). |
 | controller.env | list | `[]` | Additional environment variables for the controller pod. |
